@@ -6,17 +6,17 @@
 <title>Helping Hands | Debt Qualification Assistant</title>
 <style>
 :root{--bg:#071426;--panel:#10233d;--panel2:#172f50;--line:#2c4b70;--text:#e8f0ff;--muted:#a7bdd9;--blue:#2e7be8;--green:#20b985;--red:#e85d75;--amber:#e9b44c}
-*{box-sizing:border-box}body{margin:0;background:linear-gradient(135deg,#071426,#0b1d34 55%,#102849);color:var(--text);font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
-header{padding:26px max(20px,calc((100vw - 1180px)/2));border-bottom:1px solid var(--line);background:#0a192d}
+*{box-sizing:border-box}body{margin:0;background:#0b1524;color:var(--text);font:14px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+header{padding:22px max(20px,calc((100vw - 1120px)/2));border-bottom:1px solid #263a52;background:#0b1524}
 .kicker{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#8dbdfb;font-weight:800}
-h1{font-size:clamp(25px,3vw,36px);line-height:1.15;margin:7px 0 8px}header p{color:var(--muted);margin:0;max-width:850px}
-main{max-width:1180px;margin:24px auto;padding:0 18px 42px;display:grid;grid-template-columns:minmax(0,1.2fr) minmax(320px,.8fr);gap:20px}
-.card{background:rgba(16,35,61,.96);border:1px solid var(--line);border-radius:17px;padding:22px;box-shadow:0 12px 30px #0002}
+h1{font-size:clamp(24px,2.6vw,31px);line-height:1.15;margin:6px 0 7px}header p{color:var(--muted);margin:0;max-width:850px}
+main{max-width:1120px;margin:18px auto;padding:0 16px 32px;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(300px,.85fr);gap:14px}
+.card{background:rgba(16,35,61,.96);border:1px solid var(--line);border-radius:12px;padding:18px;box-shadow:none}
 h2{font-size:19px;margin:0 0 4px} .sub{color:var(--muted);font-size:13px;margin:0 0 18px}
 .section-title{margin:20px 0 10px;font-size:13px;color:#9dc5fb;text-transform:uppercase;letter-spacing:.08em;font-weight:800}
 .fields{display:grid;grid-template-columns:1fr 1fr;gap:13px}
 .field{display:flex;flex-direction:column;gap:6px}.field label{font-size:13px;color:#d2e1f6;font-weight:650}
-.field input,.field select{width:100%;background:#081a30;border:1px solid #365578;border-radius:9px;padding:11px 12px;color:var(--text);font:inherit;outline:none}
+.field input,.field select{width:100%;background:#081a30;border:1px solid #365578;border-radius:9px;padding:10px 11px;color:var(--text);font:inherit;outline:none}
 .field input:focus,.field select:focus{border-color:#64a9ff;box-shadow:0 0 0 3px #2e7be833}
 .prefix{position:relative}.prefix span{position:absolute;left:12px;top:10px;color:#93abc9}.prefix input{padding-left:28px}
 .hint{font-size:11px;color:#8fa8c8}
@@ -25,7 +25,7 @@ button{border:0;border-radius:10px;padding:12px 15px;font:700 14px inherit;curso
 .primary{background:var(--blue);color:white}.secondary{background:#203d61;color:#e5efff;border:1px solid #3d5f88}.danger{background:#482636;color:#ffdbe2;border:1px solid #a94d66}.green{background:#126f59;color:#e4fff6;border:1px solid #25ba91}
 button:hover{filter:brightness(1.09)}button:focus-visible{outline:3px solid #8bc2ff;outline-offset:2px}
 .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
-.status{border:1px solid var(--line);border-radius:13px;padding:17px;background:#0b1b30}
+.status{border:1px solid var(--line);border-radius:10px;padding:14px;background:#0b1b30}
 .status .label{font-size:11px;letter-spacing:.1em;font-weight:900;text-transform:uppercase}
 .status h3{margin:5px 0 8px;font-size:22px;line-height:1.2}
 .status p{margin:6px 0;color:#c5d6ec}
@@ -37,7 +37,7 @@ button:hover{filter:brightness(1.09)}button:focus-visible{outline:3px solid #8bc
 .result-block{border-top:1px solid #2c496c;margin-top:16px;padding-top:14px}
 .result-block h4{margin:0 0 7px;font-size:13px;color:#a8c9f5;text-transform:uppercase;letter-spacing:.06em}
 .result-block p{margin:0 0 9px}
-.prompt{background:#08182b;border:1px solid #2e4e72;border-radius:10px;padding:13px;white-space:pre-wrap;color:#e5efff;font-size:13px}
+.prompt{background:#08182b;border:1px solid #2e4e72;border-radius:8px;padding:12px;white-space:pre-wrap;color:#e5efff;font-size:13px}
 .copyrow{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:10px}
 .copyrow button{font-size:12px;padding:8px 10px}
 .note{font-size:12px;color:#9db3d0;margin-top:14px}
@@ -52,12 +52,12 @@ footer{max-width:1180px;padding:0 18px 25px;margin:auto;color:#7893b6;font-size:
 <body>
 <header>
   <div class="kicker">Helping Hands • Agent Tool</div>
-  <h1>Debt Qualification Assistant</h1>
-  <p>Enter the lead’s debt amounts and monthly payments. The tool checks the two Debt routes and tells the agent whether to proceed directly to the matching Debt offer or continue to another program.</p>
+  <h1>Debt Qualification</h1>
+  <p>Enter the lead’s debt amounts and total monthly payment. The result updates automatically and tells you the next step.</p>
 </header>
 <main>
 <section class="card">
-  <h2>1. Enter debt amounts</h2>
+  <h2>Enter the lead’s information</h2>
   <p class="sub">Enter each debt balance once and leave fields blank if they do not apply. Enter the lead’s total monthly payments one time. The Debt 2K+ route adds all listed debt balances together and requires $2,000+ combined debt and $135+ in monthly payments.</p>
   <div class="section-title">Pure unsecured debt • Debt 5K+</div>
   <div class="fields">
@@ -72,15 +72,14 @@ footer{max-width:1180px;padding:0 18px 25px;margin:auto;color:#7893b6;font-size:
     <div class="field"><label for="repossession">Repossessed car loans ($)</label><div class="prefix"><span>$</span><input id="repossession" type="number" min="0" step="0.01" value=""></div></div>
     <div class="field"><label for="otherMedical">Other applicable medical-route debt ($)</label><div class="prefix"><span>$</span><input id="otherMedical" type="number" min="0" step="0.01" value=""></div></div>
     <div class="field"><label for="monthlyPayment">Total monthly payments toward listed debts ($)</label><div class="prefix"><span>$</span><input id="monthlyPayment" type="number" min="0" step="0.01" value=""></div><span class="hint">Enter the lead’s total monthly payment once. The tool uses it for both Debt qualification checks.</span></div>
-    <div class="field"><label for="buyer">Debt buyer / destination</label><select id="buyer"><option value="Upside Legal">Upside Legal</option><option value="Debt specialist — buyer not specified">Debt specialist — buyer not specified</option><option value="Supervisor confirmation required">Supervisor confirmation required</option></select><span class="hint">Your State Checker notes Upside Legal for the 2K Medical route. Confirm the buyer for other routes using your approved buyer rules.</span></div>
-  </div>
+</div>
   <div class="actions">
     <button class="secondary" id="resetBtn" type="button">Clear form</button>
   </div>
-  <p class="note">Rules configured from management’s instructions: Pure unsecured = $5,000+ qualifying unsecured debt and $250+ total monthly payments. Debt 2K+ = $2,000+ combined listed debt and $135+ total monthly payments. Final buyer routing should follow the approved buyer/state rules.</p>
+  <p class="note">Qualification rules: Pure unsecured = $5,000+ qualifying unsecured debt and $250+ total monthly payments. Debt 2K+ = $2,000+ combined listed debt and $135+ total monthly payments. Final buyer routing should follow the approved buyer/state rules.</p>
 </section>
 <aside class="card">
-  <h2>2. Qualification result</h2>
+  <h2>Qualification result</h2>
   <p class="sub">Live result — updates automatically as you type.</p>
   <div id="status" class="status incomplete" role="status" aria-live="polite">
     <span class="pill">WAITING FOR INPUT</span>
@@ -108,7 +107,7 @@ footer{max-width:1180px;padding:0 18px 25px;margin:auto;color:#7893b6;font-size:
 <footer>Helping Hands • Debt Qualification Assistant • Standalone offline HTML application</footer>
 <script>
 (() => {
-  const ids = ['creditCards','personalLoans','otherUnsecured','medicalBills','paydayLoans','repossession','otherMedical','monthlyPayment','buyer'];
+  const ids = ['creditCards','personalLoans','otherUnsecured','medicalBills','paydayLoans','repossession','otherMedical','monthlyPayment'];
   const $ = id => document.getElementById(id);
   const money = n => n.toLocaleString('en-US',{style:'currency',currency:'USD'});
   const amount = id => {
@@ -133,33 +132,32 @@ footer{max-width:1180px;padding:0 18px 25px;margin:auto;color:#7893b6;font-size:
 
     const pureQualified = pureTotal >= 5000 && monthlyPayment >= 250;
     const medicalQualified = medicalTotal >= 2000 && monthlyPayment >= 135;
-    const buyer = $('buyer').value;
     let result, instruction, prompt;
 
     if(pureQualified && medicalQualified){
-      result = {kind:'qualified',pill:'BOTH ROUTES QUALIFIED',title:'Qualified for both Debt routes',paras:[
+      result = {kind:'qualified',pill:'BOTH ROUTES QUALIFIED',title:'Qualified — Prioritize Debt 5K+',paras:[
         'Pure unsecured: '+money(pureTotal)+' total and '+money(monthlyPayment)+' monthly.',
         'Combined debt total for medical route: '+money(medicalTotal)+' and '+money(monthlyPayment)+' monthly.',
-        'Follow your approved buyer/state rules to choose the correct buyer. Do not continue screening other programs while the Debt offer decision is pending.'
+        'Both routes meet the configured criteria. Prioritize the Debt 5K+ Pure Unsecured route and follow the approved buyer/state rules. Do not continue screening other programs.'
       ]};
-      instruction = 'Debt qualification criteria are met on both routes. Review the approved buyer/state rules, select the applicable Debt route, and present the Debt offer now. Do not screen other buyers first.';
-      prompt = 'DEBT PRIORITY — QUALIFIED\nThe lead meets both Debt screening routes:\n• Pure unsecured: '+money(pureTotal)+' debt; '+money(monthlyPayment)+' monthly payment.\n• Medical-related: '+money(medicalTotal)+' debt; '+money(monthlyPayment)+' monthly payment.\nAgent action: Follow approved buyer/state rules, present the applicable Debt offer now, and do not screen other programs while the Debt decision is pending.';
+      instruction = 'Both routes qualify, so prioritize Debt 5K+ Pure Unsecured. Follow the approved buyer/state rules, present the Debt 5K+ offer now, and proceed to transfer if the lead agrees. Do not screen other buyers first.';
+      prompt = 'DEBT PRIORITY — BOTH ROUTES QUALIFIED\nThe lead meets both Debt screening routes:\n• Pure unsecured total: '+money(pureTotal)+'\n• Combined debt total for Debt 2K+: '+money(medicalTotal)+'\n• Total monthly payments: '+money(monthlyPayment)+'\nAGENT ACTION: Prioritize the Debt 5K+ Pure Unsecured route. Present the 5K+ offer now and proceed to transfer if the lead agrees. Do not screen other programs first.';
     } else if(pureQualified){
       result = {kind:'qualified',pill:'QUALIFIED — PURE UNSECURED',title:'Proceed directly to Debt offer',paras:[
         'Pure unsecured total: '+money(pureTotal)+' (minimum $5,000).',
         'Total monthly payments: '+money(monthlyPayment)+' (minimum $250).',
-        'Debt buyer: Confirm the correct buyer using approved buyer/state rules.'
+        'Follow approved buyer and state-acceptance rules before transferring.'
       ]};
       instruction = 'STOP OTHER SCREENING. The lead meets the Debt 5K+ Pure Unsecured criteria. Present the Debt offer now and proceed to transfer if the lead agrees.';
-      prompt = 'QUALIFIED — DEBT 5K+ PURE UNSECURED\nDebt total: '+money(pureTotal)+'\nTotal monthly payments: '+money(monthlyPayment)+'\nBuyer: Confirm using the approved buyer/state rules.\nAGENT ACTION: Stop screening other programs. Present the Debt offer now. If the lead agrees, proceed directly to the Debt transfer.';
+      prompt = 'QUALIFIED — DEBT 5K+ PURE UNSECURED\nDebt total: '+money(pureTotal)+'\nTotal monthly payments: '+money(monthlyPayment)+'\nVerify buyer and state acceptance using the approved rules.\nAGENT ACTION: Stop screening other programs. Present the Debt offer now. If the lead agrees, proceed directly to the Debt transfer.';
     } else if(medicalQualified){
       result = {kind:'qualified',pill:'QUALIFIED — MEDICAL ROUTE',title:'Proceed directly to Debt offer',paras:[
         'Combined debt total: '+money(medicalTotal)+' (minimum $2,000 across all listed debt categories).',
         'Total monthly payments: '+money(monthlyPayment)+' (minimum $135).',
-        'Selected buyer/destination: '+buyer+'. Verify state acceptance in the State Checker before transfer.'
+        'Verify the lead’s state against the approved State Checker before transfer.'
       ]};
       instruction = 'STOP OTHER SCREENING. The lead meets the Debt 2K+ Medical route criteria. Present the Debt offer now. Verify buyer/state acceptance before transferring.';
-      prompt = 'QUALIFIED — DEBT 2K+ MEDICAL ROUTE\nMedical-related debt: '+money(medicalTotal)+'\nTotal monthly payments: '+money(monthlyPayment)+'\nBuyer/destination: '+buyer+'\nAGENT ACTION: Stop screening other programs. Verify the lead’s state against the approved State Checker, present the Debt offer now, and proceed to transfer if the lead agrees.';
+      prompt = 'QUALIFIED — DEBT 2K+ MEDICAL ROUTE\nMedical-related debt: '+money(medicalTotal)+'\nTotal monthly payments: '+money(monthlyPayment)+'\nAGENT ACTION: Stop screening other programs. Verify the lead’s state against the approved State Checker, present the Debt offer now, and proceed to transfer if the lead agrees.';
     } else {
       const missing = [];
       if(pureTotal < 5000) missing.push('Pure unsecured debt is below $5,000.');
@@ -180,7 +178,7 @@ footer{max-width:1180px;padding:0 18px 25px;margin:auto;color:#7893b6;font-size:
     $('callPrompt').textContent = prompt;
   }
   $('resetBtn').addEventListener('click',()=>{
-    ids.forEach(id=>{ if(id==='buyer') $(id).value='Upside Legal'; else $(id).value=''; });
+    ids.forEach(id=>{ $(id).value=''; });
     $('status').className='status incomplete';
     $('status').replaceChildren();
     const pill=document.createElement('span');pill.className='pill';pill.textContent='WAITING FOR INPUT';
@@ -206,7 +204,6 @@ footer{max-width:1180px;padding:0 18px 25px;margin:auto;color:#7893b6;font-size:
     $('copyStatus').textContent='';
     evaluate();
   }));
-  $('buyer').addEventListener('change', evaluate);
 })();
 </script>
 </body>
