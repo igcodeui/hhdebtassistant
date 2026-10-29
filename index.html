@@ -58,13 +58,12 @@ footer{max-width:1180px;padding:0 18px 25px;margin:auto;color:#7893b6;font-size:
 <main>
 <section class="card">
   <h2>1. Enter debt amounts</h2>
-  <p class="sub">Enter amounts in dollars. Leave a field blank if it does not apply. Do not include the same debt in more than one field. For the Medical route, listed credit card and unsecured debt also count toward the $2,000 combined total when medical bills are present.</p>
+  <p class="sub">Enter each debt balance once and leave fields blank if they do not apply. Enter the lead’s total monthly payments one time. The Debt 2K+ route adds all listed debt balances together and requires $2,000+ combined debt and $135+ in monthly payments.</p>
   <div class="section-title">Pure unsecured debt • Debt 5K+</div>
   <div class="fields">
     <div class="field"><label for="creditCards">Credit card debt ($)</label><div class="prefix"><span>$</span><input id="creditCards" type="number" min="0" step="0.01" value=""></div></div>
     <div class="field"><label for="personalLoans">Personal / unsecured loans ($)</label><div class="prefix"><span>$</span><input id="personalLoans" type="number" min="0" step="0.01" value=""></div></div>
     <div class="field"><label for="otherUnsecured">Other qualifying unsecured debt ($)</label><div class="prefix"><span>$</span><input id="otherUnsecured" type="number" min="0" step="0.01" value=""></div></div>
-    <div class="field"><label for="pureMonthly">Monthly payments toward pure unsecured ($)</label><div class="prefix"><span>$</span><input id="pureMonthly" type="number" min="0" step="0.01" value=""></div></div>
   </div>
   <div class="section-title">Medical-related debt • Debt 2K+</div>
   <div class="fields">
@@ -72,13 +71,13 @@ footer{max-width:1180px;padding:0 18px 25px;margin:auto;color:#7893b6;font-size:
     <div class="field"><label for="paydayLoans">Payday loans ($)</label><div class="prefix"><span>$</span><input id="paydayLoans" type="number" min="0" step="0.01" value=""></div></div>
     <div class="field"><label for="repossession">Repossessed car loans ($)</label><div class="prefix"><span>$</span><input id="repossession" type="number" min="0" step="0.01" value=""></div></div>
     <div class="field"><label for="otherMedical">Other applicable medical-route debt ($)</label><div class="prefix"><span>$</span><input id="otherMedical" type="number" min="0" step="0.01" value=""></div></div>
-    <div class="field"><label for="medicalMonthly">Monthly payments toward these debts ($)</label><div class="prefix"><span>$</span><input id="medicalMonthly" type="number" min="0" step="0.01" value=""></div></div>
+    <div class="field"><label for="monthlyPayment">Total monthly payments toward listed debts ($)</label><div class="prefix"><span>$</span><input id="monthlyPayment" type="number" min="0" step="0.01" value=""></div><span class="hint">Enter the lead’s total monthly payment once. The tool uses it for both Debt qualification checks.</span></div>
     <div class="field"><label for="buyer">Debt buyer / destination</label><select id="buyer"><option value="Upside Legal">Upside Legal</option><option value="Debt specialist — buyer not specified">Debt specialist — buyer not specified</option><option value="Supervisor confirmation required">Supervisor confirmation required</option></select><span class="hint">Your State Checker notes Upside Legal for the 2K Medical route. Confirm the buyer for other routes using your approved buyer rules.</span></div>
   </div>
   <div class="actions">
     <button class="secondary" id="resetBtn" type="button">Clear form</button>
   </div>
-  <p class="note">Rules configured from management’s instructions: Pure unsecured = $5,000+ debt and $250+ monthly payments. Medical route = $2,000+ qualifying debt and $135+ monthly payments. Final buyer routing should follow the approved buyer/state rules.</p>
+  <p class="note">Rules configured from management’s instructions: Pure unsecured = $5,000+ qualifying unsecured debt and $250+ total monthly payments. Debt 2K+ = $2,000+ combined listed debt and $135+ total monthly payments. Final buyer routing should follow the approved buyer/state rules.</p>
 </section>
 <aside class="card">
   <h2>2. Qualification result</h2>
@@ -89,10 +88,7 @@ footer{max-width:1180px;padding:0 18px 25px;margin:auto;color:#7893b6;font-size:
     <p>Start typing to evaluate both routes automatically.</p>
   </div>
   <div class="mini-grid">
-    <div class="mini"><span class="n">Pure unsecured total</span><strong id="pureTotal">$0.00</strong></div>
-    <div class="mini"><span class="n">Combined debt total (medical route)</span><strong id="medicalTotal">$0.00</strong></div>
-    <div class="mini"><span class="n">Pure monthly payment</span><strong id="purePay">$0.00</strong></div>
-    <div class="mini"><span class="n">Medical-route monthly payment</span><strong id="medicalPay">$0.00</strong></div>
+    <div class="mini" style="grid-column:1/-1"><span class="n">Total monthly payments</span><strong id="monthlyPay">$0.00</strong></div>
   </div>
   <div class="result-block">
     <h4>Agent instruction</h4>
@@ -112,7 +108,7 @@ footer{max-width:1180px;padding:0 18px 25px;margin:auto;color:#7893b6;font-size:
 <footer>Helping Hands • Debt Qualification Assistant • Standalone offline HTML application</footer>
 <script>
 (() => {
-  const ids = ['creditCards','personalLoans','otherUnsecured','pureMonthly','medicalBills','paydayLoans','repossession','otherMedical','medicalMonthly','buyer'];
+  const ids = ['creditCards','personalLoans','otherUnsecured','medicalBills','paydayLoans','repossession','otherMedical','monthlyPayment','buyer'];
   const $ = id => document.getElementById(id);
   const money = n => n.toLocaleString('en-US',{style:'currency',currency:'USD'});
   const amount = id => {
@@ -130,57 +126,54 @@ footer{max-width:1180px;padding:0 18px 25px;margin:auto;color:#7893b6;font-size:
   };
   function evaluate(){
     const pureTotal = amount('creditCards') + amount('personalLoans') + amount('otherUnsecured');
-    const pureMonthly = amount('pureMonthly');
+    const monthlyPayment = amount('monthlyPayment');
     const medicalTotal = amount('creditCards') + amount('personalLoans') + amount('otherUnsecured') + amount('medicalBills') + amount('paydayLoans') + amount('repossession') + amount('otherMedical');
-    const medicalMonthly = amount('medicalMonthly');
-    $('pureTotal').textContent = money(pureTotal);
-    $('medicalTotal').textContent = money(medicalTotal);
-    $('purePay').textContent = money(pureMonthly);
-    $('medicalPay').textContent = money(medicalMonthly);
+    
+    $('monthlyPay').textContent = money(monthlyPayment);
 
-    const pureQualified = pureTotal >= 5000 && pureMonthly >= 250;
-    const medicalQualified = medicalTotal >= 2000 && medicalMonthly >= 135 && amount('medicalBills') > 0;
+    const pureQualified = pureTotal >= 5000 && monthlyPayment >= 250;
+    const medicalQualified = medicalTotal >= 2000 && monthlyPayment >= 135;
     const buyer = $('buyer').value;
     let result, instruction, prompt;
 
     if(pureQualified && medicalQualified){
       result = {kind:'qualified',pill:'BOTH ROUTES QUALIFIED',title:'Qualified for both Debt routes',paras:[
-        'Pure unsecured: '+money(pureTotal)+' total and '+money(pureMonthly)+' monthly.',
-        'Combined debt total for medical route: '+money(medicalTotal)+' and '+money(medicalMonthly)+' monthly.',
+        'Pure unsecured: '+money(pureTotal)+' total and '+money(monthlyPayment)+' monthly.',
+        'Combined debt total for medical route: '+money(medicalTotal)+' and '+money(monthlyPayment)+' monthly.',
         'Follow your approved buyer/state rules to choose the correct buyer. Do not continue screening other programs while the Debt offer decision is pending.'
       ]};
       instruction = 'Debt qualification criteria are met on both routes. Review the approved buyer/state rules, select the applicable Debt route, and present the Debt offer now. Do not screen other buyers first.';
-      prompt = 'DEBT PRIORITY — QUALIFIED\nThe lead meets both Debt screening routes:\n• Pure unsecured: '+money(pureTotal)+' debt; '+money(pureMonthly)+' monthly payment.\n• Medical-related: '+money(medicalTotal)+' debt; '+money(medicalMonthly)+' monthly payment.\nAgent action: Follow approved buyer/state rules, present the applicable Debt offer now, and do not screen other programs while the Debt decision is pending.';
+      prompt = 'DEBT PRIORITY — QUALIFIED\nThe lead meets both Debt screening routes:\n• Pure unsecured: '+money(pureTotal)+' debt; '+money(monthlyPayment)+' monthly payment.\n• Medical-related: '+money(medicalTotal)+' debt; '+money(monthlyPayment)+' monthly payment.\nAgent action: Follow approved buyer/state rules, present the applicable Debt offer now, and do not screen other programs while the Debt decision is pending.';
     } else if(pureQualified){
       result = {kind:'qualified',pill:'QUALIFIED — PURE UNSECURED',title:'Proceed directly to Debt offer',paras:[
         'Pure unsecured total: '+money(pureTotal)+' (minimum $5,000).',
-        'Monthly payment: '+money(pureMonthly)+' (minimum $250).',
+        'Total monthly payments: '+money(monthlyPayment)+' (minimum $250).',
         'Debt buyer: Confirm the correct buyer using approved buyer/state rules.'
       ]};
       instruction = 'STOP OTHER SCREENING. The lead meets the Debt 5K+ Pure Unsecured criteria. Present the Debt offer now and proceed to transfer if the lead agrees.';
-      prompt = 'QUALIFIED — DEBT 5K+ PURE UNSECURED\nDebt total: '+money(pureTotal)+'\nMonthly payment: '+money(pureMonthly)+'\nBuyer: Confirm using the approved buyer/state rules.\nAGENT ACTION: Stop screening other programs. Present the Debt offer now. If the lead agrees, proceed directly to the Debt transfer.';
+      prompt = 'QUALIFIED — DEBT 5K+ PURE UNSECURED\nDebt total: '+money(pureTotal)+'\nTotal monthly payments: '+money(monthlyPayment)+'\nBuyer: Confirm using the approved buyer/state rules.\nAGENT ACTION: Stop screening other programs. Present the Debt offer now. If the lead agrees, proceed directly to the Debt transfer.';
     } else if(medicalQualified){
       result = {kind:'qualified',pill:'QUALIFIED — MEDICAL ROUTE',title:'Proceed directly to Debt offer',paras:[
-        'Combined debt total: '+money(medicalTotal)+' (minimum $2,000, including medical bills and other listed debts).',
-        'Monthly payment: '+money(medicalMonthly)+' (minimum $135).',
+        'Combined debt total: '+money(medicalTotal)+' (minimum $2,000 across all listed debt categories).',
+        'Total monthly payments: '+money(monthlyPayment)+' (minimum $135).',
         'Selected buyer/destination: '+buyer+'. Verify state acceptance in the State Checker before transfer.'
       ]};
       instruction = 'STOP OTHER SCREENING. The lead meets the Debt 2K+ Medical route criteria. Present the Debt offer now. Verify buyer/state acceptance before transferring.';
-      prompt = 'QUALIFIED — DEBT 2K+ MEDICAL ROUTE\nMedical-related debt: '+money(medicalTotal)+'\nMonthly payment: '+money(medicalMonthly)+'\nBuyer/destination: '+buyer+'\nAGENT ACTION: Stop screening other programs. Verify the lead’s state against the approved State Checker, present the Debt offer now, and proceed to transfer if the lead agrees.';
+      prompt = 'QUALIFIED — DEBT 2K+ MEDICAL ROUTE\nMedical-related debt: '+money(medicalTotal)+'\nTotal monthly payments: '+money(monthlyPayment)+'\nBuyer/destination: '+buyer+'\nAGENT ACTION: Stop screening other programs. Verify the lead’s state against the approved State Checker, present the Debt offer now, and proceed to transfer if the lead agrees.';
     } else {
       const missing = [];
       if(pureTotal < 5000) missing.push('Pure unsecured debt is below $5,000.');
-      if(pureMonthly < 250) missing.push('Pure unsecured monthly payments are below $250.');
+      if(monthlyPayment < 250) missing.push('Total monthly payments are below $250 for the Pure Unsecured route.');
       if(medicalTotal < 2000) missing.push('Combined debt total for the medical route is below $2,000.');
-      if(medicalMonthly < 135) missing.push('Medical-route monthly payments are below $135.');
-      if(amount('medicalBills')===0) missing.push('Medical route requires medical bills to be present.');
+      if(monthlyPayment < 135) missing.push('Total monthly payments are below $135 for the Debt 2K+ route.');
+      if(amount('medicalBills')===0) missing.push('Debt 2K+ uses the combined debt total and $135 monthly payment minimum.');
       result = {kind:'notqualified',pill:'NO DEBT ROUTE MET',title:'Continue to alternative screening',paras:[
         'The entered values do not meet either configured Debt route.',
         ...missing,
         'Confirm amounts with the lead and follow the approved alternative-program flow.'
       ]};
       instruction = 'The current amounts do not meet either configured Debt route. Confirm the amounts and monthly payments. If correct, continue to the next appropriate program according to the approved call flow.';
-      prompt = 'DEBT SCREENING — CRITERIA NOT MET\nPure unsecured total: '+money(pureTotal)+'; monthly payment: '+money(pureMonthly)+'.\nCombined debt total for medical route: '+money(medicalTotal)+'; monthly payment: '+money(medicalMonthly)+'.\nAGENT ACTION: Verify the answers. If the criteria are still not met, continue to the next appropriate program. Do not mark the lead as Debt-qualified.';
+      prompt = 'DEBT SCREENING — CRITERIA NOT MET\nPure unsecured total: '+money(pureTotal)+'; total monthly payments: '+money(monthlyPayment)+'.\nCombined debt total for medical route: '+money(medicalTotal)+'; total monthly payments: '+money(monthlyPayment)+'.\nAGENT ACTION: Verify the answers. If the criteria are still not met, continue to the next appropriate program. Do not mark the lead as Debt-qualified.';
     }
     setStatus(result.kind,result.pill,result.title,result.paras);
     $('instruction').textContent = instruction;
@@ -194,7 +187,7 @@ footer{max-width:1180px;padding:0 18px 25px;margin:auto;color:#7893b6;font-size:
     const h=document.createElement('h3');h.textContent='Enter the lead’s information';
     const p=document.createElement('p');p.textContent='Start typing to evaluate both routes automatically.';
     $('status').append(pill,h,p);
-    ['pureTotal','medicalTotal','purePay','medicalPay'].forEach(id=>$(id).textContent='$0.00');
+    ['monthlyPay'].forEach(id=>$(id).textContent='$0.00');
     $('instruction').textContent='No qualification result yet.';
     $('callPrompt').textContent='Start entering debt amounts and monthly payments. The result will update automatically.';
     $('copyStatus').textContent='';
